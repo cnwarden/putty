@@ -883,7 +883,7 @@ struct ssh_tag {
      * at some unexpected moment.
      */
     char *username;
-
+    char *password;
     /*
      * Used to transfer data back from async callbacks.
      */
@@ -9865,7 +9865,10 @@ static void do_ssh2_authconn(Ssh ssh, unsigned char *in, int inlen,
 		int changereq_first_time; /* not live over crReturn */
 
 		ssh->pkt_actx = SSH2_PKTCTX_PASSWORD;
-
+        
+        ssh->password = get_remote_password(ssh->conf);
+        if (strlen(ssh->password) == 0)
+        {
 		s->cur_prompt = new_prompts(ssh->frontend);
 		s->cur_prompt->to_server = TRUE;
 		s->cur_prompt->name = dupstr("SSH password");
@@ -9898,6 +9901,11 @@ static void do_ssh2_authconn(Ssh ssh, unsigned char *in, int inlen,
 		s->password = dupstr(s->cur_prompt->prompts[0]->result);
 		free_prompts(s->cur_prompt);
 
+        }
+        else
+        {
+            s->password = dupstr(ssh->password);
+        }
 		/*
 		 * Send the password packet.
 		 *
