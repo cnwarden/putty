@@ -9867,7 +9867,7 @@ static void do_ssh2_authconn(Ssh ssh, unsigned char *in, int inlen,
 		ssh->pkt_actx = SSH2_PKTCTX_PASSWORD;
         
         ssh->password = get_remote_password(ssh->conf);
-        if (strlen(ssh->password) == 0)
+        if (!ssh->password || strlen(ssh->password) == 0)
         {
 		s->cur_prompt = new_prompts(ssh->frontend);
 		s->cur_prompt->to_server = TRUE;
