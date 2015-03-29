@@ -712,7 +712,7 @@ void load_open_settings(void *sesskey, Conf *conf)
     /* The CloseOnExit numbers are arranged in a different order from
      * the standard FORCE_ON / FORCE_OFF / AUTO. */
     i = gppi_raw(sesskey, "CloseOnExit", 1); conf_set_int(conf, CONF_close_on_exit, (i+1)%3);
-    gppi(sesskey, "WarnOnClose", 1, conf, CONF_warn_on_close);
+    gppi(sesskey, "WarnOnClose", 0, conf, CONF_warn_on_close);
     {
 	/* This is two values for backward compatibility with 0.50/0.51 */
 	int pingmin, pingsec;
@@ -853,7 +853,7 @@ void load_open_settings(void *sesskey, Conf *conf)
     gppi(sesskey, "CurType", 0, conf, CONF_cursor_type);
     gppi(sesskey, "BlinkCur", 0, conf, CONF_blink_cur);
     /* pedantic compiler tells me I can't use conf, CONF_beep as an int * :-) */
-    gppi(sesskey, "Beep", 1, conf, CONF_beep);
+    gppi(sesskey, "Beep", 0, conf, CONF_beep);
     gppi(sesskey, "BeepInd", 0, conf, CONF_beep_ind);
     gppfile(sesskey, "BellWaveFile", conf, CONF_bell_wavefile);
     gppi(sesskey, "BellOverload", 1, conf, CONF_bellovl);
